@@ -110,7 +110,7 @@
         'elem = document.createElement( "style" );\n',
         'document.head.appendChild( elem );\n',
         'elem.type = "text/css";\n',
-        'elem.innerHTML = "@media only screen and ( min-width: 601px ) { #containerR { margin-bottom: 96px; } } @media only screen and ( max-width: 600px ) { #containerR { margin-bottom: 0px; } }"\n',
+        'elem.innerHTML = "@media only screen and ( min-width: 601px ) { #containerR { margin-bottom: 96px; margin-top: 4px; } } @media only screen and ( max-width: 600px ) { #containerR { margin-bottom: 16px; } }"\n',
         '// This page was partially inspired by Tristan McCullen\'s "Me" project, AKA "What if we coded together?" which can be found here: https://code.sololearn.com/WqjnZwxCjq7N/#js\n',
         '// And the other part is that I\'ve always wanted to do something like this (aka legal insanity).'
       ],
@@ -123,7 +123,7 @@
       charIndex = 0,
       isComment = false,
       skipped = false,
-      shortTime = 0.01;
+      shortTime = 48;
 
       window.addEventListener( "DOMContentLoaded", function() {
         typeCode( document.getElementById( "codeIn" ));
