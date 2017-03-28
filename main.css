@@ -1,0 +1,15 @@
+.centerText {
+  text-align: center;
+}
+
+#codeIn {
+  resize: none;
+  width: 98%;
+  max-width: calc( width / 1em );
+}
+
+@media only screen and ( max-width: 600px ) {
+  #codeIn {
+    max-height: 112px;
+  }
+}

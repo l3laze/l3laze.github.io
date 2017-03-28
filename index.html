@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://use.fontawesome.com/64ce2f770f.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="main.css" />
+    <title>Hi :) I'm Tom</title>
+  </head>
+  <body class="centerText">
+    <div class="gradBG">
+      <div id="container">
+      </div>
+      <div id="codeArea" class="w3-padding">
+        <textarea id="codeIn"></textarea>
+      </div>
+      <div class="w3-container w3-bottom w3-padding">
+        <button class="w3-btn w3-border w3-ripple" onclick="skipCoding()">Skip Intro</button>
+      </div>
+    </div>
+    <script type="text/javascript"><!--
+      var code = [
+        '// Ooh, a visitor. Hold on a second, please.\n',
+        '// I\'m just working on building myself a portfolio page.\n',
+        '// You can watch if you would like, but I don\'t know how exciting it will be.\n',
+        'document.getElementById( "codeIn" ).rows = "20";\n',
+        'document.getElementById( "codeIn" ).style.fontSize = "12px";\n',
+        'document.getElementById( "container" ).classList.add( "w3-container" );\n',
+        'document.getElementById( "container" ).classList.add( "w3-padding" );\n',
+        'document.getElementById( "container" ).classList.add( "w3-half" );\n',
+        'document.getElementById( "codeArea" ).classList.add( "w3-half" );\n',
+        'document.getElementById( "codeIn" ).classList.add( "w3-black" );\n',
+        'elem = document.createElement( "span" );\n',
+        'document.getElementById( "container" ).appendChild( elem );\n',
+        'elem.appendChild( document.createTextNode( "Hi :) I\'m Tom" ));\n',
+        'elem.classList.add( "w3-xxxlarge" );\n',
+        'elem = document.createElement( "p" );\n',
+        'elem.appendChild( document.createTextNode( "I like to build web pages and Electron apps, and play video games." ));\n',
+        'document.getElementById( "container" ).appendChild( elem );\n',
+        'elem.classList.remove( "w3-text-white" );\n',
+        'elem.classList.add( "w3-xlarge" );\n',
+        'elem.classList.add( "w3-padding" );\n',
+        'elem.classList.add( "w3-border" );\n',
+        'link = document.createElement( "a" );\n',
+        'document.getElementById( "container" ).appendChild( link );\n',
+        'link.href = "https://github.com/l3laze";\n',
+        'link.target = "_blank";\n',
+        'link.title = "GitHub";\n',
+        'link.classList.add( "w3-btn" );\n',
+        'link.classList.add( "w3-border" );\n',
+        'link.classList.add( "w3-padding" );\n',
+        'icon = document.createElement( "i" );\n',
+        'link.appendChild( icon );\n',
+        'icon.classList.add( "fa" );\n',
+        'icon.classList.add( "fa-github" );\n',
+        'icon.classList.add( "fa-2x" );\n',
+        'link = document.createElement( "a" );\n',
+        'document.getElementById( "container" ).appendChild( link );\n',
+        'link.href = "https://www.reddit.com/user/l3l_aze/";\n',
+        'link.target = "_blank";\n',
+        'link.title = "Reddit";\n',
+        'link.classList.add( "w3-btn" );\n',
+        'link.classList.add( "w3-border" );\n',
+        'link.classList.add( "w3-padding" );\n',
+        'link.classList.add( "w3-margin-left" );\n',
+        'link.classList.add( "w3-margin-right" );\n',
+        'icon = document.createElement( "i" );\n',
+        'link.appendChild( icon );\n',
+        'icon.classList.add( "fa" );\n',
+        'icon.classList.add( "fa-reddit" );\n',
+        'icon.classList.add( "fa-2x" )\n',
+        'link = document.createElement( "a" );\n',
+        'document.getElementById( "container" ).appendChild( link );\n',
+        'link.href = "mailto:l3l_aze@yahoo.com";\n',
+        'link.target = "_blank";\n',
+        'link.title = "Email";\n',
+        'link.classList.add( "w3-btn" );\n',
+        'link.classList.add( "w3-border" );\n',
+        'link.classList.add( "w3-padding" );\n',
+        'icon = document.createElement( "i" );\n',
+        'link.appendChild( icon );\n',
+        'icon.classList.add( "fa" );\n',
+        'icon.classList.add( "fa-envelope" );\n',
+        'icon.classList.add( "fa-2x" );'
+      ],
+      elem,
+      link,
+      icon,
+      timer,
+      lineIndex = 0,
+      charIndex = 0,
+      isComment = false,
+      skipped = false,
+      shortTime = 8;
+
+      window.addEventListener( "DOMContentLoaded", function() {
+        typeCode( document.getElementById( "codeIn" ));
+      });
+
+      function typeCode( control ) {
+        if ( skipped === false ) {
+          var ta = document.getElementById( "codeIn" );
+          var chars = code[ lineIndex ].split( /.*?/g );
+          if( chars[ 0 ] + chars[ 1 ] === "//" ) {
+            isComment = true;
+          }
+          ta.scrollTop = ta.scrollHeight;
+          ta.value += chars[ charIndex++ ];
+          if( charIndex === chars.length ) {
+            if( ! isComment ) {
+              eval( code[ lineIndex ]);
+            }
+            if( lineIndex === code.length - 1 ) {
+              console.log( "Done!" );
+            }
+            else {
+              lineIndex++;
+              charIndex = 0;
+              timer = window.setTimeout( "typeCode()", ( isComment ? 1000 : shortTime ));
+              isComment = false;
+            }
+          }
+          else {
+            timer = window.setTimeout( "typeCode()", shortTime );
+          }
+        }
+      }
+
+      function skipCoding() {
+        if( skipped === false ) {
+          skipped = true;
+          window.clearTimeout( timer );
+          var ta = document.getElementById( "codeIn" );
+          var chars = code[ lineIndex ].split( /.*?/g );
+          console.log( lineIndex, charIndex );
+          var restOfLine = code[ lineIndex ].substring( charIndex, code[ lineIndex ].length );
+          ta.value += restOfLine;
+          eval( code[ lineIndex ]);
+          for( ++lineIndex; lineIndex < code.length; lineIndex++ ) {
+            ta.value += code[ lineIndex ];
+            eval( code[ lineIndex ]);
+          }
+          ta.scrollTop = ta.scrollHeight;
+        }
+      }
+    --></script>
+  </body>
+</html>
