@@ -6,7 +6,7 @@
     <script src="https://use.fontawesome.com/64ce2f770f.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="main.css" />
-    <title>Under Construction</title>
+    <title>l3laze.github.io</title>
   </head>
   <body class="centerText">
     <div>
@@ -24,14 +24,14 @@
     <script type="text/javascript"><!--
       var code = [
         '// Ooh, a visitor. Hold on a second, please! I\'ll get the elves moving.\n',
-        'document.title = "My portfolio";\n',
+        'document.title = "Hi :)";\n',
+        'document.getElementById( "codeIn" ).rows = "4";\n',
         'document.getElementById( "codeIn" ).style.fontSize = "12px";\n',
+        'document.getElementById( "codeIn" ).classList.add( "w3-half" );\n',
+        'document.getElementById( "codeIn" ).classList.add( "w3-black" );\n',
         'document.getElementById( "containerL" ).classList.add( "w3-container" );\n',
         'document.getElementById( "containerL" ).classList.add( "w3-padding" );\n',
         'document.getElementById( "containerL" ).classList.add( "w3-half" );\n',
-        'document.getElementById( "codeIn" ).classList.add( "w3-half" );\n',
-        'document.getElementById( "codeIn" ).classList.add( "w3-black" );\n',
-        'document.getElementById( "codeIn" ).rows = "4";\n',
         'elem = document.createElement( "b" );\n',
         'document.getElementById( "containerL" ).appendChild( elem );\n',
         'elem.appendChild( document.createTextNode( "Hi :) I\'m Tom" ));\n',
@@ -79,9 +79,14 @@
         'document.getElementById( "containerR" ).appendChild( elem );\n',
         'elem.appendChild( document.createTextNode( "Stalk me:" ));\n',
         'elem.classList.add( "w3-padding" );\n',
-        'elem.style[ "margin-top" ] = "-0.85rem";\n',
+        'elem.style[ "margin-top" ] = "-0.65rem";\n',
         'link = document.createElement( "a" );\n',
         'document.getElementById( "containerR" ).appendChild( link );\n',
+        'icon = document.createElement( "i" );\n',
+        'link.appendChild( icon );\n',
+        'icon.classList.add( "fa" );\n',
+        'icon.classList.add( "fa-github" );\n',
+        'icon.classList.add( "fa-2x" );\n',
         'link.href = "https://github.com/l3laze";\n',
         'link.target = "_blank";\n',
         'link.title = "GitHub";\n',
@@ -89,24 +94,19 @@
         'link.classList.add( "w3-border" );\n',
         'link.classList.add( "w3-padding" );\n',
         'link.classList.add( "w3-margin-right" );\n',
+        'link = document.createElement( "a" );\n',
+        'document.getElementById( "containerR" ).appendChild( link );\n',
         'icon = document.createElement( "i" );\n',
         'link.appendChild( icon );\n',
         'icon.classList.add( "fa" );\n',
-        'icon.classList.add( "fa-github" );\n',
+        'icon.classList.add( "fa-envelope" );\n',
         'icon.classList.add( "fa-2x" );\n',
-        'link = document.createElement( "a" );\n',
-        'document.getElementById( "containerR" ).appendChild( link );\n',
         'link.href = "mailto:l3l_aze@yahoo.com";\n',
         'link.target = "_blank";\n',
         'link.title = "Email";\n',
         'link.classList.add( "w3-btn" );\n',
         'link.classList.add( "w3-border" );\n',
         'link.classList.add( "w3-padding" );\n',
-        'icon = document.createElement( "i" );\n',
-        'link.appendChild( icon );\n',
-        'icon.classList.add( "fa" );\n',
-        'icon.classList.add( "fa-envelope" );\n',
-        'icon.classList.add( "fa-2x" );\n',
         'elem = document.createElement( "style" );\n',
         'document.head.appendChild( elem );\n',
         'elem.type = "text/css";\n',
@@ -123,7 +123,7 @@
       charIndex = 0,
       isComment = false,
       skipped = false,
-      shortTime = 48;
+      shortTime = 32;
 
       window.addEventListener( "DOMContentLoaded", function() {
         typeCode( document.getElementById( "codeIn" ));
