@@ -17,13 +17,14 @@
       <div id="codeArea" class="w3-padding">
       </div>
       <div class="w3-container w3-bottom w3-padding">
-        <textarea id="codeIn"></textarea>
+        <textarea id="codeIn" readonly="true"></textarea>
         <button class="w3-btn w3-border w3-ripple w3-margin-top" onclick="skipCoding()">Skip Intro</button>
       </div>
     </div>
     <script type="text/javascript"><!--
       var code = [
         '// Ooh, a visitor. Hold on a second, please! I\'ll get the elves moving.\n',
+        'document.title = "My portfolio";\n',
         'document.getElementById( "codeIn" ).style.fontSize = "12px";\n',
         'document.getElementById( "containerL" ).classList.add( "w3-container" );\n',
         'document.getElementById( "containerL" ).classList.add( "w3-padding" );\n',
@@ -36,8 +37,8 @@
         'elem.appendChild( document.createTextNode( "Hi :) I\'m Tom" ));\n',
         'elem.classList.add( "w3-large" );\n',
         'elem = document.createElement( "p" );\n',
-        'elem.appendChild( document.createTextNode( "I like to build Electron apps, and simple web pages like this." ));\n',
         'document.getElementById( "containerL" ).appendChild( elem );\n',
+        'elem.appendChild( document.createTextNode( "I like to build Electron apps, and simple web pages like this." ));\n',
         'elem.classList.remove( "w3-text-white" );\n',
         'elem.classList.add( "w3-small" );\n',
         'elem.classList.add( "w3-padding" );\n',
@@ -46,7 +47,7 @@
         'elem = document.createElement( "b" );\n',
         'document.getElementById( "containerL" ).appendChild( elem );\n',
         'elem.appendChild( document.createTextNode( "Projects" ));\n',
-        'elem.classList.add( "w3-large" );\n',
+        'elem.classList.add( "w3-medium" );\n',
         'elem = document.createElement( "ul" );\n',
         'document.getElementById( "containerL" ).appendChild( elem );\n',
         'item = document.createElement( "li" );\n',
@@ -55,9 +56,8 @@
         'item.appendChild( link );\n',
         'link.appendChild( document.createTextNode( "ReliefValve" ));\n',
         'link.href="https://github.com/l3laze/ReliefValve";\n',
-        'item.classList.add( "w3-margin-left" );\n',
-        'item.classList.add( "w3-margin-right" );\n',
         'item.style.display = "inline";\n',
+        'item.style[ "margin-right" ] = "1rem";\n',
         'item = document.createElement( "li" );\n',
         'elem.appendChild( item );\n',
         'link = document.createElement( "a" );\n',
@@ -68,6 +68,8 @@
         'elem.style[ "list-style-type" ] = "none";\n',
         'elem.style[ "margin-left" ] = "-2.85rem";\n',
         'elem.style[ "margin-bottom" ] = "-0.85rem";\n',
+        'elem.style[ "line-height" ] = "0.2rem";\n',
+        'elem.classList.add( "w3-medium" );\n',
         'document.getElementById( "containerR" ).classList.add( "w3-container" );\n',
         'document.getElementById( "containerR" ).classList.add( "w3-padding" );\n',
         'document.getElementById( "containerR" ).classList.add( "w3-half" );\n',
@@ -78,7 +80,7 @@
         'document.getElementById( "containerR" ).appendChild( elem );\n',
         'elem.appendChild( document.createTextNode( "Stalk me:" ));\n',
         'elem.classList.add( "w3-padding" );\n',
-        'elem.style[ "margin-top" ] = "-1.85rem";\n',
+        'elem.style[ "margin-top" ] = "-0.85rem";\n',
         'link = document.createElement( "a" );\n',
         'document.getElementById( "containerR" ).appendChild( link );\n',
         'link.href = "https://github.com/l3laze";\n',
@@ -118,7 +120,7 @@
       charIndex = 0,
       isComment = false,
       skipped = false,
-      shortTime = 8;
+      shortTime = 48;
 
       window.addEventListener( "DOMContentLoaded", function() {
         typeCode( document.getElementById( "codeIn" ));
