@@ -9,14 +9,14 @@
     <title>Under Construction</title>
   </head>
   <body class="centerText">
-    <div class="gradBG">
-      <div id="containerL">
-      </div>
-      <div id="containerR">
-      </div>
-      <div id="codeArea" class="w3-padding">
-      </div>
-      <div class="w3-container w3-bottom w3-padding">
+    <div>
+      <div id="content">
+        <div id="containerL">
+        </div>
+        <div id="containerR">
+        </div>
+      </content>
+      <div id="controls" class="w3-container w3-padding">
         <textarea id="codeIn" readonly="true"></textarea>
         <button class="w3-btn w3-border w3-ripple w3-margin-top" onclick="skipCoding()">Skip Intro</button>
       </div>
@@ -68,7 +68,6 @@
         'elem.style[ "list-style-type" ] = "none";\n',
         'elem.style[ "margin-left" ] = "-2.85rem";\n',
         'elem.style[ "margin-bottom" ] = "-0.85rem";\n',
-        'elem.style[ "line-height" ] = "0.2rem";\n',
         'elem.classList.add( "w3-medium" );\n',
         'document.getElementById( "containerR" ).classList.add( "w3-container" );\n',
         'document.getElementById( "containerR" ).classList.add( "w3-padding" );\n',
@@ -108,8 +107,12 @@
         'icon.classList.add( "fa" );\n',
         'icon.classList.add( "fa-envelope" );\n',
         'icon.classList.add( "fa-2x" );\n',
+        'elem = document.createElement( "style" );\n',
+        'document.head.appendChild( elem );\n',
+        'elem.type = "text/css";\n',
+        'elem.innerHTML = "@media only screen and ( min-width: 601px ) { #containerR { margin-bottom: 96px; } } @media only screen and ( max-width: 600px ) { #containerR { margin-bottom: 0px; } }"\n',
         '// This page was partially inspired by Tristan McCullen\'s "Me" project, AKA "What if we coded together?" which can be found here: https://code.sololearn.com/WqjnZwxCjq7N/#js\n',
-        '// And the other part was insanity.'
+        '// And the other part is that I\'ve always wanted to do something like this (aka legal insanity).'
       ],
       elem,
       link,
@@ -120,7 +123,7 @@
       charIndex = 0,
       isComment = false,
       skipped = false,
-      shortTime = 48;
+      shortTime = 0.01;
 
       window.addEventListener( "DOMContentLoaded", function() {
         typeCode( document.getElementById( "codeIn" ));
