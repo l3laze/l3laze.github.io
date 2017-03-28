@@ -18,7 +18,6 @@
       </div>
       <div class="w3-container w3-bottom w3-padding">
         <textarea id="codeIn"></textarea>
-        <br />
         <button class="w3-btn w3-border w3-ripple w3-margin-top" onclick="skipCoding()">Skip Intro</button>
       </div>
     </div>
@@ -56,15 +55,19 @@
         'item.appendChild( link );\n',
         'link.appendChild( document.createTextNode( "ReliefValve" ));\n',
         'link.href="https://github.com/l3laze/ReliefValve";\n',
+        'item.classList.add( "w3-margin-left" );\n',
+        'item.classList.add( "w3-margin-right" );\n',
+        'item.style.display = "inline";\n',
         'item = document.createElement( "li" );\n',
         'elem.appendChild( item );\n',
         'link = document.createElement( "a" );\n',
         'item.appendChild( link );\n',
         'link.appendChild( document.createTextNode( "Badger.CSS" ));\n',
         'link.href="https://github.com/l3laze/Badger.CSS";\n',
+        'item.style.display = "inline";\n',
         'elem.style[ "list-style-type" ] = "none";\n',
         'elem.style[ "margin-left" ] = "-2.85rem";\n',
-        'elem.style[ "line-height" ] = "2rem";\n',
+        'elem.style[ "margin-bottom" ] = "-0.85rem";\n',
         'document.getElementById( "containerR" ).classList.add( "w3-container" );\n',
         'document.getElementById( "containerR" ).classList.add( "w3-padding" );\n',
         'document.getElementById( "containerR" ).classList.add( "w3-half" );\n',
