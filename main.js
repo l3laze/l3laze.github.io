@@ -1,7 +1,9 @@
 var code = [
   '// Ooh, a visitor. Hold on a second, please! I\'ll get the elves moving.\n',
   'document.title = "Hi :)";\n',
-  'document.getElementById( "codeIn" ).rows = "4";\n',
+  'document.getElementById( "codeIn" ).style.width = "100%";\n',
+  'document.getElementById( "codeIn" ).rows = "8";\n',
+  'document.getElementById( "codeIn" ).style.resize = "none";\n',
   'document.getElementById( "codeIn" ).style.fontSize = "12px";\n',
   'document.getElementById( "codeIn" ).classList.add( "w3-half" );\n',
   'document.getElementById( "codeIn" ).classList.add( "w3-black" );\n',
@@ -48,8 +50,8 @@ var code = [
   'elem.appendChild( item );\n',
   'link = document.createElement( "a" );\n',
   'item.appendChild( link );\n',
-  'link.appendChild( document.createTextNode( "Badger.js" ));\n',
-  'link.href="https://github.com/l3laze/Badger.js";\n',
+  'link.appendChild( document.createTextNode( "lil-repl" ));\n',
+  'link.href="https://github.com/l3laze/lil-repl";\n',
   'link.target="_blank";\n',
   'item.style.display = "inline";\n',
   'item.style[ "margin-right" ] = "1rem";\n',
@@ -58,8 +60,8 @@ var code = [
   'elem.appendChild( item );\n',
   'link = document.createElement( "a" );\n',
   'item.appendChild( link );\n',
-  'link.appendChild( document.createTextNode( "lilman" ));\n',
-  'link.href="https://github.com/l3laze/lilman";\n',
+  'link.appendChild( document.createTextNode( "Doccomment" ));\n',
+  'link.href="https://github.com/l3laze/Doccomment";\n',
   'link.target="_blank";\n',
   'item.style.display = "inline";\n',
 
@@ -92,23 +94,23 @@ var code = [
   '// This page was partially inspired by Tristan McCullen\'s "Me" project @ https://code.sololearn.com/WqjnZwxCjq7N/#js\n',
   '// I\'ve also always wanted to do something like this (aka legal insanity).'
 ],
-    elem,
-    link,
-    item,
-    icon,
-    timer,
-    lineIndex = 0,
-    charIndex = 0,
-    isComment = false,
-    skipped = false,
-    tyDef = 60,
-    ttDef = 1500,
-    typingTime = 60,
-    thinkingTime = 1500,
-    playing = false;
+  elem,
+  link,
+  item,
+  icon,
+  timer,
+  lineIndex = 0,
+  charIndex = 0,
+  isComment = false,
+  skipped = false,
+  tyDef = 60,
+  ttDef = 1500,
+  typingTime = 60,
+  thinkingTime = 1500,
+  playing = false;
 
 function typeCode( control ) {
-  if ( skipped === false ) {
+  if (skipped === false ) {
     var ta = document.getElementById( "codeIn" );
     var chars = code[ lineIndex ].split( /.*?/g );
     if( chars[ 0 ] + chars[ 1 ] === "//" ) {
@@ -122,6 +124,7 @@ function typeCode( control ) {
       }
       if( lineIndex === code.length - 1 ) {
         console.log( "Done!" );
+        skipped = true;
       }
       else {
         lineIndex++;
@@ -156,6 +159,7 @@ function skipCoding() {
 
 function mediaControl( which ) {
   window.clearTimeout( timer );
+
   if( which === "ff" ) {
     if( playing === true ) {
       typingTime = typingTime / 1.25;
@@ -180,7 +184,7 @@ function mediaControl( which ) {
   }
 }
 
-window.addEventListener( "load", function() {
+window.addEventListener( "DOMContentLoaded", function() {
   playing = true;
   typeCode( document.getElementById( "codeIn" ));
 });
