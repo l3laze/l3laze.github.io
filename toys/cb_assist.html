@@ -193,14 +193,27 @@
 
         if (ra.length === 4) {
             const d = document.createElement('div')
+            const s = document.createElement('span')
+            const c = document.createElement('div')
+            const i = document.createElement('div')
 
             d.classList.add('row')
+            s.classList.add('score')
+            c.classList.add('correct', 'selected')
+            i.classList.add('incorrect')
 
-            const c = document.getElementById('container')
+            c.appendChild(document.createTextNode('0'))
+            i.appendChild(document.createTextNode('0'))
 
-            c.appendChild(document.createElement('br'))
+            s.appendChild(c)
+            s.appendChild(i)
+            d.appendChild(s)
 
-            c.appendChild(d)
+            const t = document.getElementById('container')
+
+            t.appendChild(document.createElement('br'))
+
+            t.appendChild(d)
         } else {
             setStatus('Fill the current row before adding another.')
         }
