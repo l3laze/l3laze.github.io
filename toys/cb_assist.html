@@ -23,7 +23,8 @@
         #help {
             float: right;
             display: none;
-            width: 50%;
+            width: 10%;
+            margin-right: 23%;
             font-size: 11rem;
             text-align: center;
             text-shadow: 0.8px 1.3px 2px silver;
@@ -63,8 +64,30 @@
         .row {
             padding: 0.5rem;
             border: 1px solid silver;
-            width: 14.5rem;
+            width: 16rem;
             height: 3rem;
+        }
+
+        .score {
+            float: right;
+        }
+
+        .correct, .incorrect {
+            font-weight: bold;
+            font-size: 1.5rem;
+            text-align: center;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .correct {
+            border: 1px solid green;
+            margin-top: -0.2rem;
+        }
+
+        .incorrect {
+            border: 1px solid red;
+            margin-top: 0.2rem;
         }
 
         /*
@@ -106,11 +129,32 @@
 
             border-left: 1.5rem solid blue;
         }
+
+        #statusBar {
+            width: 98%;
+        }
+
+        #status {
+            resize: none;
+            overflow: hidden;
+            background: black;
+            color: white;
+            width: 100%;
+            height: 2.6rem;
+        }
     </style>
 </head>
 <body>
     <div id="container">
+        <div id="statusBar">
+            <textarea id="status" placeholder="Status" readOnly="true" onfocus="this.blur()" rows="4"></textarea>
+        </div>
+
         <div class="row">
+            <span class="score">
+                <div class="correct selected">0</div>
+                <div class="incorrect">0</div>
+            </span>
         </div>
     </div>
 
@@ -120,11 +164,26 @@
         <p>Use Enter or E to add a new row.</p>
         <p>Use R or Ctrl + Backspace to remove a row</p>
         <p>Use F or refresh the page to reset.</p>
+        <p>Press a number 0-4 to set the currently-selected score (correct, incorrect) for the current row.</p>
+        <p>Press C to change the highlighted score for the current row.</p>
+        <p>Click on this text to hide it.</p>
     </div>
 
     <div id="help" onclick="helpMe()">?</b>
     </div>
 <script>
+    function setStatus (t) {
+        const s = document.getElementById('status')
+
+        if (s.value !== '') {
+            s.value += '\n' + t
+        } else {
+            s.value = t
+        }
+
+        s.scrollTop = s.scrollHeight
+    }
+
     function addRow () {
         const l = Array.from(document.querySelectorAll('.row'))
             .slice(-1)[0]
@@ -142,7 +201,7 @@
 
             c.appendChild(d)
         } else {
-            console.log('Fill the current row before adding another.')
+            setStatus('Fill the current row before adding another.')
         }
     }
 
@@ -155,7 +214,7 @@
 
             Array.from(document.getElementById('container').querySelectorAll('br')).slice(-1)[0].remove()
         } else {
-            console.log('Cannot remove the only row.')
+            setStatus('Cannot remove the only row.')
         }
     }
 
@@ -186,7 +245,7 @@
         if (typeof a !== 'undefined') {
             a.remove()
         } else {
-            console.log('There is nothing to remove.')
+            setStatus('There is nothing to remove.')
         }
     }
 
@@ -203,59 +262,103 @@
         }
     }
 
-    document.addEventListener('keyup', function (event) {
-        switch (event.code) {
-            case 'KeyW':
-            case 'ArrowUp':
-                addArrow('up')
-            break
+    function scoreboard () {
+        const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0]
 
-            case 'KeyA':
-            case 'ArrowLeft':
-                addArrow('left')
-            break
+        const c = s.children[0]
+        const i = s.children[1]
 
-            case 'KeyS':
-            case 'ArrowDown':
-                addArrow('down')
-            break
+        c.classList.toggle('selected')
+        i.classList.toggle('selected')
 
-            case 'KeyD':
-            case 'ArrowRight':
-                addArrow('right')
-            break
+        setStatus('Changed scoreboard target.')
+    }
 
-            case 'KeyE':
-            case 'Enter':
-                addRow()
-            break
+    function scored (n) {
+        const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0]
 
-            case 'KeyR':
-                removeRow()
-            break
+        const c = s.children[0]
+        const i = s.children[1]
 
-            case 'KeyQ':
-                removeArrow()
-            break
-
-            case 'Backspace':
-                if (event.ctrlKey) {
-                    removeRow()
-                } else {
-                    removeArrow()
-                }
-            break
-
-            case 'KeyF':
-                window.location.reload()
-            break
-
-            /*
-            default:
-                console.log(event.code)
-                */
+        if (c.classList.contains('selected')) {
+            c.innerText = n
+        } else {
+            i.innerText = n
         }
-    })
+
+        const sum = parseInt(c.innerText) + parseInt(i.innerText)
+
+        if (sum > 4) {
+            setStatus('Error: Sum of scores for a single row must be 4 or less.')
+        }
+    }
+
+    window.setTimeout(function () {
+        document.addEventListener('keyup', function (event) {
+            switch (event.code) {
+                case 'KeyW':
+                case 'ArrowUp':
+                    addArrow('up')
+                break
+
+                case 'KeyA':
+                case 'ArrowLeft':
+                    addArrow('left')
+                break
+
+                case 'KeyS':
+                case 'ArrowDown':
+                    addArrow('down')
+                break
+
+                case 'KeyD':
+                case 'ArrowRight':
+                    addArrow('right')
+                break
+
+                case 'KeyE':
+                case 'Enter':
+                    addRow()
+                break
+
+                case 'KeyR':
+                    removeRow()
+                break
+
+                case 'KeyQ':
+                    removeArrow()
+                break
+
+                case 'Backspace':
+                    if (event.ctrlKey) {
+                        removeRow()
+                    } else {
+                        removeArrow()
+                    }
+                break
+
+                case 'KeyC':
+                    scoreboard()
+                break
+
+                case 'Digit0':
+                case 'Digit1':
+                case 'Digit2':
+                case 'Digit3':
+                case 'Digit4':
+                    scored(event.code.slice(-1))
+                break
+
+                case 'Digit5':
+                    scored(0)
+                break
+
+                case 'KeyF':
+                    window.location.reload()
+                break
+            }
+        })
+    }, 1000)
 </script>
 </body>
 </html>
