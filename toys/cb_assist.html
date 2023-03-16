@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CB Assistant</title>
+    <style>
+        body {
+            background: black;
+            color: white;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            user-select: none;
+        }
+
+        #container {
+            float: left;
+        }
+
+        #directions {
+            float: right;
+            width: 50%;
+        }
+
+        #help {
+            float: right;
+            display: none;
+            width: 50%;
+            font-size: 11rem;
+            text-align: center;
+            text-shadow: 0.8px 1.3px 2px silver;
+            color: black;
+        }
+
+        #help:hover {
+            color: white;
+        }
+
+        .up {
+            margin-bottom: 1.5rem;
+        }
+
+        .down {
+            margin-top: 1.5rem;
+        }
+
+        .up, .down {
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+            display: inline-block;
+        }
+
+        .left {
+            margin-left: 0.75rem;
+            margin-right: 1.25rem;
+            display: inline-block;
+        }
+
+        .right {
+            margin-left: 1.25rem;
+            margin-right: 0.75rem;
+            display: inline-block;
+        }
+
+        .row {
+            padding: 0.5rem;
+            border: 1px solid silver;
+            width: 14.5rem;
+            height: 3rem;
+        }
+
+        /*
+         * https://css-tricks.com/snippets/css/css-triangle/
+         */
+
+        .up {
+            width: 0; 
+            height: 0; 
+            border-left: 1.5rem solid transparent;
+            border-right: 1.5rem solid transparent;
+
+            border-bottom: 1.5rem solid yellow;
+        }
+
+        .down {
+            width: 0; 
+            height: 0; 
+            border-left: 1.5rem solid transparent;
+            border-right: 1.5rem solid transparent;
+
+            border-top: 1.5rem solid yellow;
+        }
+
+        .left {
+            width: 0; 
+            height: 0; 
+            border-top: 1.5rem solid transparent;
+            border-bottom: 1.5rem solid transparent;
+
+            border-right: 1.5rem solid blue;
+        }
+
+        .right {
+            width: 0; 
+            height: 0; 
+            border-top: 1.5rem solid transparent;
+            border-bottom: 1.5rem solid transparent;
+
+            border-left: 1.5rem solid blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="row">
+        </div>
+    </div>
+
+    <div id="directions" onclick="helpMe()">
+        <p>WASD or arrow keys - Add up to 4 arrows to a row. When full, the final arrow will change instead.</p>
+        <p>Q or Backspace will remove the last arrow from the current row.</p>
+        <p>Use Enter or E to add a new row.</p>
+        <p>Use R or Ctrl + Backspace to remove a row</p>
+        <p>Use F or refresh the page to reset.</p>
+    </div>
+
+    <div id="help" onclick="helpMe()">?</b>
+    </div>
+<script>
+    function addRow () {
+        const l = Array.from(document.querySelectorAll('.row'))
+            .slice(-1)[0]
+
+        const ra = l.querySelectorAll('.up, .down, .left, .right')
+
+        if (ra.length === 4) {
+            const d = document.createElement('div')
+
+            d.classList.add('row')
+
+            const c = document.getElementById('container')
+
+            c.appendChild(document.createElement('br'))
+
+            c.appendChild(d)
+        } else {
+            console.log('Fill the current row before adding another.')
+        }
+    }
+
+    function removeRow () {
+        const ra = Array.from(document.querySelectorAll('.row'))
+        const r = ra.slice(-1)[0]
+
+        if (ra.length > 1 && typeof r !== 'undefined') {
+            r.remove()
+
+            Array.from(document.getElementById('container').querySelectorAll('br')).slice(-1)[0].remove()
+        } else {
+            console.log('Cannot remove the only row.')
+        }
+    }
+
+    function addArrow (dir) {
+        const r = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
+
+        const ra = Array.from(r.querySelectorAll('.up, .down, .left, .right'))
+
+        if(ra.length === 4) {
+            const a = ra.slice(-1)[0]
+
+            a.className = ''
+            a.classList.add(dir)
+        } else {
+            const d = document.createElement('div')
+
+            d.classList.add(dir)
+
+            r.appendChild(d)
+        }
+    }
+
+    function removeArrow () {
+        const r = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
+
+        const a = Array.from(r.querySelectorAll('.up, .down, .left, .right')).slice(-1)[0]
+
+        if (typeof a !== 'undefined') {
+            a.remove()
+        } else {
+            console.log('There is nothing to remove.')
+        }
+    }
+
+    function helpMe () {
+        const d = document.getElementById('directions')
+        const h = document.getElementById('help')
+
+        if (d.style.display === 'none') {
+            d.style.display = 'block'
+            h.style.display = 'none'
+        } else {
+            d.style.display = 'none'
+            h.style.display = 'block'
+        }
+    }
+
+    document.addEventListener('keyup', function (event) {
+        switch (event.code) {
+            case 'KeyW':
+            case 'ArrowUp':
+                addArrow('up')
+            break
+
+            case 'KeyA':
+            case 'ArrowLeft':
+                addArrow('left')
+            break
+
+            case 'KeyS':
+            case 'ArrowDown':
+                addArrow('down')
+            break
+
+            case 'KeyD':
+            case 'ArrowRight':
+                addArrow('right')
+            break
+
+            case 'KeyE':
+            case 'Enter':
+                addRow()
+            break
+
+            case 'KeyR':
+                removeRow()
+            break
+
+            case 'KeyQ':
+                removeArrow()
+            break
+
+            case 'Backspace':
+                if (event.ctrlKey) {
+                    removeRow()
+                } else {
+                    removeArrow()
+                }
+            break
+
+            case 'KeyF':
+                window.location.reload()
+            break
+
+            /*
+            default:
+                console.log(event.code)
+                */
+        }
+    })
+</script>
+</body>
+</html>
