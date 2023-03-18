@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>CB Assistant</title>
   <style>
   body {
@@ -9,9 +11,21 @@
     margin-left: 1rem;
     margin-right: 1rem;
     user-select: none;
+    font-weight: bold;
+    font-family:Arial, Helvetica, sans-serif;
+  }
+
+  button {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  #directions {
+    margin-top: 2.2rem;
   }
 
   .row {
+    margin-bottom: 2px;
     padding: 0.5rem;
     border: 1px solid silver;
     width: 16rem;
@@ -32,11 +46,13 @@
   }
 
   .correct {
+    background: green;
     border: 1px solid green;
     margin-top: -0.2rem;
   }
 
   .misplaced {
+    background: red;
     border: 1px solid red;
     margin-top: 0.2rem;
   }
@@ -98,18 +114,19 @@
   .status {
     width: 15rem;
     padding: 0.5rem 0.95rem;
-    margin-top: 2px;
+    font-weight: 100;
+    -webkit-text-stroke: 0.08px black;
   }
 
   .failure {
     background: lightpink;
-    border-left: 4px solid red;
+    border-left: 4.1px solid red;
     height: 3.5rem;
   }
 
   .success {
     background: lightgreen;
-    border-left: 4px solid green;
+    border-left: 4.1px solid green;
     height: 1.2rem;
   }
   </style>
@@ -131,12 +148,12 @@
   </div>
 </div>
   
-<div id="directions" onclick="helpMe()" style="display:none">
-  <p>Click on this text to hide it.</p>
+<div id="directions" style="display:none">
   <p>Press Auto to reset the board and generate a random guess.</p>
   <p>Click to add 1 correct (green), or 1 misplaced (red).</p>
   <p>When at max (4), click will reset number to 0.</p>
   <p>Shift + click to subtract 1 instead.</p>
+  <p>When at minimum (0), shift + click will set number to 4.</p>
 </div>
 
 <script>
@@ -150,7 +167,7 @@ function bumpScore (what) {
     score--
 
     if(score < 0) {
-      score = 0
+      score = 4
     }
   } else {
     score++
@@ -485,6 +502,11 @@ function addGuess (guess, correct, misplaced) {
 function nextGuess () {
   const evidence = []
 
+  if (directions.style.display !== 'none') {
+    directions.style.display = 'none'
+    document.getElementById('container').style.display = 'block'
+  }
+
   if (getRow().style.display !== 'none') {
     const sb = getScoreboard()
     const correct = parseInt(sb.correct.innerText)
@@ -537,6 +559,12 @@ function nextGuess () {
 
 function initAutomation () {
   const rows = Array.from(document.querySelectorAll('.row'))
+  const directions = document.getElementById('directions')
+
+  if (directions.style.display !== 'none') {
+    directions.style.display = 'none'
+    document.getElementById('container').style.display = 'block'
+  }
 
   for (let i = 0; i < rows.length; i++) {
     removeRow()
