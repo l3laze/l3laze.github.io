@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CB Assistant</title>
+  <style>
+  body {
+    background: black;
+    color: white;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    user-select: none;
+  }
+
+  .row {
+    padding: 0.5rem;
+    border: 1px solid silver;
+    width: 16rem;
+    height: 3rem;
+    display: none;
+  }
+
+  .score {
+    float: right;
+  }
+
+  .correct, .misplaced {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .correct {
+    border: 1px solid green;
+    margin-top: -0.2rem;
+  }
+
+  .misplaced {
+    border: 1px solid red;
+    margin-top: 0.2rem;
+  }
+
+  /*
+   * Based on https://css-tricks.com/snippets/css/css-triangle/
+   */
+
+  .up {
+    width: 0; 
+    height: 0;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    border-left: 1.5rem solid transparent;
+    border-right: 1.5rem solid transparent;
+
+    border-bottom: 1.5rem solid yellow;
+  }
+
+  .down {
+    width: 0; 
+    height: 0;
+    display: inline-block;
+    margin-top: 1.5rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    border-left: 1.5rem solid transparent;
+    border-right: 1.5rem solid transparent;
+
+    border-top: 1.5rem solid yellow;
+  }
+
+  .left {
+    width: 0; 
+    height: 0;
+    display: inline-block;
+    margin-left: 0.75rem;
+    margin-right: 1.25rem;
+    border-top: 1.5rem solid transparent;
+    border-bottom: 1.5rem solid transparent;
+
+    border-right: 1.5rem solid blue;
+  }
+
+  .right {
+    width: 0; 
+    height: 0;
+    display: inline-block;
+    margin-left: 1.25rem;
+    margin-right: 0.75rem;
+    border-top: 1.5rem solid transparent;
+    border-bottom: 1.5rem solid transparent;
+
+    border-left: 1.5rem solid blue;
+  }
+
+  .status {
+    width: 15rem;
+    padding: 0.5rem 0.95rem;
+    margin-top: 2px;
+  }
+
+  .failure {
+    background: lightpink;
+    border-left: 4px solid red;
+    height: 3.5rem;
+  }
+
+  .success {
+    background: lightgreen;
+    border-left: 4px solid green;
+    height: 1.2rem;
+  }
+  </style>
+</head>
+<body>
+
+<button id="help" onclick="helpMe()">Help</button>
+&nbsp;
+<button id="auto" onclick="initAutomation()">Auto</button>
+&nbsp;
+<button id="next" onclick="nextGuess()">Next</button>
+
+<div id="container">
+  <div class="row">
+    <span class="score"> 
+      <div class="correct selected" onclick="bumpScore(this)">0</div> 
+      <div class="misplaced" onclick="bumpScore(this)">0</div> 
+    </span> 
+  </div>
+</div>
+  
+<div id="directions" onclick="helpMe()" style="display:none">
+  <p>Click on this text to hide it.</p>
+  <p>Press Auto to reset the board and generate a random guess.</p>
+  <p>Click to add 1 correct (green), or 1 misplaced (red).</p>
+  <p>When at max (4), click will reset number to 0.</p>
+  <p>Shift + click to subtract 1 instead.</p>
+</div>
+
+<script>
+function bumpScore (what) {
+  let score = parseInt(what.innerText)
+  const shift = event.shiftKey
+
+  if (!shift && score === 4) {
+    score = 0
+  } else if (shift) {
+    score--
+
+    if(score < 0) {
+      score = 0
+    }
+  } else {
+    score++
+  }
+
+  what.innerText = score
+}
+
+function addRow () {
+  const d = document.createElement('div')
+  const s = document.createElement('span')
+  const c = document.createElement('div')
+  const i = document.createElement('div')
+
+  d.classList.add('row')
+  s.classList.add('score')
+  c.classList.add('correct', 'selected')
+  i.classList.add('misplaced')
+
+  c.addEventListener('click', function () {
+    bumpScore(c)
+  })
+
+  i.addEventListener('click', function () {
+    bumpScore(i)
+  })
+
+  c.appendChild(document.createTextNode('0'))
+  i.appendChild(document.createTextNode('0'))
+
+  s.appendChild(c)
+  s.appendChild(i)
+  d.appendChild(s)
+
+  const t = document.getElementById('container')
+
+  t.appendChild(document.createElement('br'))
+
+  t.appendChild(d)
+}
+
+function removeRow () {
+  const ra = Array.from(document.querySelectorAll('.row'))
+  const r = ra.slice(-1)[0]
+
+  if (ra.length > 0 && typeof r !== 'undefined') {
+    r.remove()
+
+    document.getElementById('container').querySelector('br')?.remove()
+  }
+}
+
+function addArrow (dir) {
+  const r = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
+
+  const ra = Array.from(r.querySelectorAll('.up, .down, .left, .right'))
+
+  if(ra.length === 4) {
+    const a = ra.slice(-1)[0]
+
+    a.className = ''
+    a.classList.add(dir)
+  } else {
+    const d = document.createElement('div')
+
+    d.classList.add(dir)
+
+    r.appendChild(d)
+  }
+}
+
+function removeArrow () {
+  const r = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
+
+  const a = Array.from(r.querySelectorAll('.up, .down, .left, .right')).slice(-1)[0]
+
+  if (typeof a !== 'undefined') {
+    a.remove()
+  } else {
+    setStatus('There is nothing to remove.')
+  }
+}
+
+function helpMe () {
+  const d = document.querySelector('#directions')
+  const c = document.querySelector('#container')
+
+  if (d.style.display === 'none') {
+    d.style.display = 'block'
+    c.style.display = 'none'
+  } else {
+    d.style.display = 'none'
+    c.style.display = ''
+  }
+}
+
+function scoreboard () {
+  const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0]
+  const c = s.children[0]
+  const i = s.children[1]
+
+  c.classList.toggle('selected')
+  i.classList.toggle('selected')
+
+  setStatus('Changed scoreboard target.')
+}
+
+function scored (n) {
+  const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0]
+
+  const c = s.children[0]
+  const i = s.children[1]
+
+  if (c.classList.contains('selected')) {
+    c.innerText = n
+  } else {
+    i.innerText = n
+  }
+
+  const sum = parseInt(c.innerText) + parseInt(i.innerText)
+
+  if (sum > 4) {
+    setStatus('Error: Sum of scores for a single row must be 4 or less.')
+  }
+}
+
+function getRow () {
+  const r = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
+
+  return r
+}
+
+function getScoreboard () {
+  const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0] || {
+    children: [0, 0]
+  }
+  const correct = s.children[0]
+  const misplaced = s.children[1]
+
+  return {
+    correct,
+    misplaced
+  }
+}
+
+/*
+ * Based on https://nebupookins.github.io/JS-Mastermind-Solver/
+ */
+
+function status (message, type = 'success') {
+  const s = document.createElement('div')
+
+  s.classList.add('status', type)
+
+  s.appendChild(document.createTextNode(message))
+
+  document.getElementById('container').appendChild(s)
+}
+
+function randomFromArray (arr) {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
+function generatePossibilities (num, alignments) {
+  if (num < 1) {
+    throw new Error('Argument "num" must be at least 1, but it is ' + num)
+  }
+
+  if (num === 1) {
+    return alignments.slice(0)
+  }
+
+  const suffixes = generatePossibilities(num - 1, alignments)
+  const ret = []
+
+  alignments.forEach((a) => {
+    suffixes.forEach((s) => {
+      ret.push([a].concat(s))
+    })
+  })
+
+    return ret
+  }
+
+/**
+  * @param answer e.g. ["red", "green", "blue", "blue"]
+  * @param guess e.g. ["blue, green", "yellow", "red"]
+  * return e.g. { bothCorrect: 1, colorCorrect: 2 }
+  */
+
+function judgeGuess(answer, guess) {
+  const retVal = {
+    correct: 0,
+    misplaced: 0
+  }
+  const unaccountedForAnswers = []
+  const unaccountedForGuesses = []
+
+  for (let i = 0; i < answer.length; i++) {
+    const a = answer[i]
+    const g = guess[i]
+
+    if (a === g) {
+      retVal.correct++
+    } else {
+      unaccountedForAnswers.push(answer[i])
+      unaccountedForGuesses.push(guess[i])
+    }
+  }
+
+  unaccountedForAnswers.forEach((a) => {
+    const guessIndex = unaccountedForGuesses.indexOf(a)
+
+    if (guessIndex !== -1) {
+      retVal.misplaced++
+      unaccountedForGuesses.splice(guessIndex, 1)
+    }
+  })
+
+  return retVal
+}
+
+function guessContradictsSomeEvidence (guess, evidences) {
+  for (let key in evidences) {
+    let evidence = evidences[key]
+    /*
+     * Treat the guess like an answer and the evidence as a guess, and
+     * see whether the judgment is the same.
+     */
+
+    let judgement = judgeGuess(guess, evidence.guess)
+
+    if ((judgement.correct !== evidence.correct) || (judgement.misplaced !== evidence.misplaced)) {
+      //console.log("guess", guess, "contradicts evidence", evidence.guess);
+
+      return true
+    }
+  }
+
+  return false
+}
+
+/**
+  * Removes and returns the element at the provided index from an array.
+  * This function may shuffle/reorder the elements of the array for
+  * efficiency reasons. For example, if you request to remove the first
+  * element of the array, rather than reindexing every element in the
+  * array (O(N)), this function may choose to swap the first and last
+  * element of the array, and then remove the last element from the
+  * array (O(1)).
+  */
+
+function quickRemoveFromArray (index, array) {
+  const arrayLength = array.length
+
+  if (index >= arrayLength || index < 0) {
+    throw new Error("Tried to access index " + index + " from array of length " + arrayLength)
+  }
+
+  if (arrayLength === 1) {
+    return array.pop()
+  }
+
+  const retVal = array[index]
+  const lastElement = array.pop()
+  array[index] = lastElement
+
+  return retVal
+}
+
+/**
+  * Returns an array e.g. ["red", "green", "blue"] or null to indicate
+  * that there are no possible guesses left. It randomly selects one of
+  * the guesses from the provided `gameState` parameter, and removes
+  * that guess from the list of possible guesses. This function may also
+  * "shuffle" or reorder the elements in the possible guesses list for
+  * efficiency reasons.
+  */
+
+function generateGuess (evidence) {
+  let guessIndex = Math.floor(Math.random() * possibilities.length)
+  let guess = quickRemoveFromArray(guessIndex, possibilities)
+
+  while (guessContradictsSomeEvidence(guess, evidence)) {
+    if (possibilities.length < 1) {
+      return null
+    }
+
+    guessIndex = Math.floor(Math.random() * possibilities.length)
+
+    guess = quickRemoveFromArray(guessIndex, possibilities)
+  }
+
+  if (typeof guess !== 'object' || guess.constructor.name !== 'Array') {
+    throw new Error("Expected guess to be an array, but it was a(n) " + (typeof guess))
+  }
+
+  return guess
+}
+
+function guessToString (guess) {
+  if ((typeof guess) !== 'object') {
+    throw new Error('Expected guess to be an array but it was a ' + (typeof guess))
+  }
+  return guess.join(", ")
+}
+
+function addGuess (guess, correct, misplaced) {
+  const shortToLong = {
+    u: 'up',
+    d: 'down',
+    l: 'left',
+    r: 'right'
+  }
+
+  const keys = Object.keys(shortToLong)
+
+  guess.forEach((alignment) => {
+    if (keys.indexOf(alignment) < 0) {
+      throw new Error('Expected one of up, down, left, or right, but found ' + alignment)
+    }
+
+    addArrow(shortToLong[alignment])
+  })
+
+  const row = getRow()
+  row.dataset.evidence = JSON.stringify({
+    guess
+  })
+}
+
+function nextGuess () {
+  const evidence = []
+
+  if (getRow().style.display !== 'none') {
+    const sb = getScoreboard()
+    const correct = parseInt(sb.correct.innerText)
+    const misplaced = parseInt(sb.misplaced.innerText)
+
+    if (correct + misplaced > 4) {
+      setStatus('The sum of Correct and Misplaced must be less than 4.')
+
+      return
+    }
+
+    if (correct === 4) {
+      status('Success! Try again.', 'success')
+      return
+    }
+
+    const e = JSON.parse(getRow().dataset.evidence)
+
+    e['correct'] = correct
+    e['misplaced'] = misplaced
+
+    getRow().dataset.evidence = JSON.stringify(e)
+  }
+
+  const rows = Array.from(document.getElementById('container').querySelectorAll('.row'))
+  
+  for(r of rows) {
+    if (typeof r.dataset.evidence !== 'undefined') {
+      evidence.push(JSON.parse(r.dataset.evidence))
+    }
+  }
+
+  const next = generateGuess(evidence)
+
+  if (next === null) {
+    document.getElementById('next').style.display = 'none'
+
+    status('Ran out of possibilities to guess. There may be a mistake in the data you entered.', 'failure')
+  } else {
+    addRow()
+
+    const row = getRow()
+
+    row.dataset.guess = next
+    row.style.display = 'inline-block'
+
+    addGuess(next)
+  }
+}
+
+function initAutomation () {
+  const rows = Array.from(document.querySelectorAll('.row'))
+
+  for (let i = 0; i < rows.length; i++) {
+    removeRow()
+  }
+
+  addRow()
+
+  getRow().style.display = 'none'
+
+  document.querySelector('.status')?.remove()
+
+  document.getElementById('next').style.display = 'inline-block'
+
+  possibilities = generatePossibilities(4, ['u', 'd', 'l', 'r'])
+
+  nextGuess()
+}
+
+let possibilities = []
+
+</script>
+</body>
+</html>
