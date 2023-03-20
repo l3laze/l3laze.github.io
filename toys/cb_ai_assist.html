@@ -16,12 +16,30 @@
   }
 
   button {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
   }
 
-  #directions {
+  a {
+    text-decoration: none;
+    color: dodgerblue;
+  }
+
+  #settings, #help, #about {
+    text-align: center;
     margin-top: 2.2rem;
+  }
+
+  #about {
+    line-height: 3rem;
+  }
+
+  #help {
+    line-height: 1.5rem;
+  }
+
+  #testResults {
+    width: 100%;
   }
 
   .row {
@@ -43,6 +61,7 @@
     text-align: center;
     width: 1.5rem;
     height: 1.5rem;
+    color: white;
   }
 
   .correct {
@@ -129,26 +148,69 @@
     border-left: 4.1px solid green;
     height: 1.2rem;
   }
+
+  .warning {
+    background: lightyellow;
+    color: black;
+    border-left: 4.1px solid yellow;
+    height: 2.2rem;
+  }
   </style>
 </head>
 <body>
+<div id="controls">
+  <button id="moreOptions" onclick="moreOptions()">More</button>
+  &nbsp;
+  <button id="auto" onclick="initAutomation()">Auto</button>
+  &nbsp;
+  <button id="next" onclick="nextGuess()">Next</button>
 
-<button id="help" onclick="helpMe()">Help</button>
-&nbsp;
-<button id="auto" onclick="initAutomation()">Auto</button>
-&nbsp;
-<button id="next" onclick="nextGuess()">Next</button>
+  <br/>
+
+  <div id="more" style="display:none">
+    <button id="settingsBtn" onclick="display('settings')">Settings</button>
+    <br/>
+    <button id="helpBtn" onclick="display('help')">Help</button>
+    <br/>
+    <button id="aboutBtn" onclick="display('about')">About</button>
+  </div>
+</div>
 
 <div id="container">
   <div class="row">
     <span class="score"> 
       <div class="correct selected" onclick="bumpScore(this)">0</div> 
-      <div class="misplaced" onclick="bumpScore(this)">0</div> 
+      <div class="misplaced" onclick="bumpScore(this)">0</div>
     </span> 
   </div>
 </div>
+
+<div id="settings" style="display:none">
+  <span>Theme</span>
+
+  <br/>
+
+  <label for="dark">
+    <input type="radio" name="theme" id="dark" onchange="updateTheme('dark')" checked>
+    Dark
+  </label>
+  <label for="light">
+    <input type="radio" name="theme" id="light" onchange="updateTheme('light')">
+    Light
+  </label>
+
+  <br/>
+  <br/>
+
+  <button onclick="selfTest()">Self-Test</button>
   
-<div id="directions" style="display:none">
+  <br/>
+  <br/>
+
+  <textarea id="testResults" rows="10"></textarea>
+</div>
+
+<div id="help" style="display:none">
   <p>Press Auto to reset the board and generate a random guess.</p>
   <p>Click to add 1 correct (green), or 1 misplaced (red).</p>
   <p>When at max (4), click will reset number to 0.</p>
@@ -156,14 +218,22 @@
   <p>When at minimum (0), shift + click will set number to 4.</p>
 </div>
 
+<div id="about" style="display:none">
+  <p>Made for use with Chrome</p>
+
+  <p>Partially based on <a href="https://nebupookins.github.io/JS-Mastermind-Solver/">JS-Mastermind-Solver</a> by <a href="https://github.com/nebupookins">nebupookins</a></p>
+
+  <p>Built with <span style="color:red;font-size:2rem;vertical-align:sub">&hearts;</span> by <a href="https://github.com/l3laze">l3l_aze</a></p>
+</div>
+
 <script>
-function bumpScore (what) {
+function bumpScore (what, how) {
   let score = parseInt(what.innerText)
   const shift = event.shiftKey
 
-  if (!shift && score === 4) {
+  if ((!shift && typeof how === 'undefined') && score === 4) {
     score = 0
-  } else if (shift) {
+  } else if (shift || how === 'minus') {
     score--
 
     if(score < 0) {
@@ -222,76 +292,43 @@ function removeRow () {
 
 function addArrow (dir) {
   const r = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
+  const d = document.createElement('div')
 
-  const ra = Array.from(r.querySelectorAll('.up, .down, .left, .right'))
+  d.classList.add(dir)
 
-  if(ra.length === 4) {
-    const a = ra.slice(-1)[0]
-
-    a.className = ''
-    a.classList.add(dir)
-  } else {
-    const d = document.createElement('div')
-
-    d.classList.add(dir)
-
-    r.appendChild(d)
-  }
+  r.appendChild(d)
 }
 
-function removeArrow () {
-  const r = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
-
-  const a = Array.from(r.querySelectorAll('.up, .down, .left, .right')).slice(-1)[0]
-
-  if (typeof a !== 'undefined') {
-    a.remove()
-  } else {
-    setStatus('There is nothing to remove.')
-  }
-}
-
-function helpMe () {
-  const d = document.querySelector('#directions')
-  const c = document.querySelector('#container')
-
-  if (d.style.display === 'none') {
-    d.style.display = 'block'
+function moreOptions () {
+  const m = document.getElementById('more')
+  const c = document.getElementById('container')
+  
+  if(m.style.display === 'none') {
+    m.style.display = ''
     c.style.display = 'none'
   } else {
-    d.style.display = 'none'
+    m.style.display = 'none'
     c.style.display = ''
   }
+
+  document.getElementById('about').style.display = 'none'
+  document.getElementById('help').style.display = 'none'
+  document.getElementById('settings').style.display = 'none'
 }
 
-function scoreboard () {
-  const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0]
-  const c = s.children[0]
-  const i = s.children[1]
+function display (panel) {
+  const panels = ['about', 'container', 'help', 'settings']
 
-  c.classList.toggle('selected')
-  i.classList.toggle('selected')
+  panels.map((p) => document.getElementById(p))
+    .forEach((p) => {
+      if (p.id === panel) {
+        p.style.display = ''
+      } else {
+        p.style.display = 'none'
+      }
+    })
 
-  setStatus('Changed scoreboard target.')
-}
-
-function scored (n) {
-  const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0]
-
-  const c = s.children[0]
-  const i = s.children[1]
-
-  if (c.classList.contains('selected')) {
-    c.innerText = n
-  } else {
-    i.innerText = n
-  }
-
-  const sum = parseInt(c.innerText) + parseInt(i.innerText)
-
-  if (sum > 4) {
-    setStatus('Error: Sum of scores for a single row must be 4 or less.')
-  }
+    document.getElementById('more').style.display = 'none'
 }
 
 function getRow () {
@@ -301,9 +338,7 @@ function getRow () {
 }
 
 function getScoreboard () {
-  const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0] || {
-    children: [0, 0]
-  }
+  const s = Array.from(document.querySelectorAll('.score')).slice(-1)[0]
   const correct = s.children[0]
   const misplaced = s.children[1]
 
@@ -312,10 +347,6 @@ function getScoreboard () {
     misplaced
   }
 }
-
-/*
- * Based on https://nebupookins.github.io/JS-Mastermind-Solver/
- */
 
 function status (message, type = 'success') {
   const s = document.createElement('div')
@@ -327,15 +358,7 @@ function status (message, type = 'success') {
   document.getElementById('container').appendChild(s)
 }
 
-function randomFromArray (arr) {
-  return arr[Math.floor(Math.random() * arr.length)]
-}
-
 function generatePossibilities (num, alignments) {
-  if (num < 1) {
-    throw new Error('Argument "num" must be at least 1, but it is ' + num)
-  }
-
   if (num === 1) {
     return alignments.slice(0)
   }
@@ -352,13 +375,12 @@ function generatePossibilities (num, alignments) {
     return ret
   }
 
-/**
+function judgeGuess(answer, guess) {
+ /**
   * @param answer e.g. ["red", "green", "blue", "blue"]
   * @param guess e.g. ["blue, green", "yellow", "red"]
   * return e.g. { bothCorrect: 1, colorCorrect: 2 }
   */
-
-function judgeGuess(answer, guess) {
   const retVal = {
     correct: 0,
     misplaced: 0
@@ -410,7 +432,8 @@ function guessContradictsSomeEvidence (guess, evidences) {
   return false
 }
 
-/**
+function quickRemoveFromArray (index, array) {
+ /**
   * Removes and returns the element at the provided index from an array.
   * This function may shuffle/reorder the elements of the array for
   * efficiency reasons. For example, if you request to remove the first
@@ -419,8 +442,6 @@ function guessContradictsSomeEvidence (guess, evidences) {
   * element of the array, and then remove the last element from the
   * array (O(1)).
   */
-
-function quickRemoveFromArray (index, array) {
   const arrayLength = array.length
 
   if (index >= arrayLength || index < 0) {
@@ -438,7 +459,8 @@ function quickRemoveFromArray (index, array) {
   return retVal
 }
 
-/**
+function generateGuess (evidence) {
+ /**
   * Returns an array e.g. ["red", "green", "blue"] or null to indicate
   * that there are no possible guesses left. It randomly selects one of
   * the guesses from the provided `gameState` parameter, and removes
@@ -447,7 +469,6 @@ function quickRemoveFromArray (index, array) {
   * efficiency reasons.
   */
 
-function generateGuess (evidence) {
   let guessIndex = Math.floor(Math.random() * possibilities.length)
   let guess = quickRemoveFromArray(guessIndex, possibilities)
 
@@ -466,13 +487,6 @@ function generateGuess (evidence) {
   }
 
   return guess
-}
-
-function guessToString (guess) {
-  if ((typeof guess) !== 'object') {
-    throw new Error('Expected guess to be an array but it was a ' + (typeof guess))
-  }
-  return guess.join(", ")
 }
 
 function addGuess (guess, correct, misplaced) {
@@ -502,10 +516,14 @@ function addGuess (guess, correct, misplaced) {
 function nextGuess () {
   const evidence = []
 
-  if (directions.style.display !== 'none') {
-    directions.style.display = 'none'
-    document.getElementById('container').style.display = 'block'
-  }
+  document.getElementById('container').style.display = ''
+  document.getElementById('more').style.display = 'none'
+  document.getElementById('about').style.display = 'none'
+  document.getElementById('help').style.display = 'none'
+  document.getElementById('settings').style.display = 'none'
+
+  Array.from(document.getElementsByClassName('status'))
+    .forEach((s) => s.remove())
 
   if (getRow().style.display !== 'none') {
     const sb = getScoreboard()
@@ -513,13 +531,16 @@ function nextGuess () {
     const misplaced = parseInt(sb.misplaced.innerText)
 
     if (correct + misplaced > 4) {
-      setStatus('The sum of Correct and Misplaced must be less than 4.')
+      status('The sum of Correct and Misplaced must be less than 4.', 'warning')
 
       return
     }
 
     if (correct === 4) {
       status('Success! Try again.', 'success')
+
+      document.getElementById('next').style.display = 'none'
+
       return
     }
 
@@ -559,12 +580,15 @@ function nextGuess () {
 
 function initAutomation () {
   const rows = Array.from(document.querySelectorAll('.row'))
-  const directions = document.getElementById('directions')
 
-  if (directions.style.display !== 'none') {
-    directions.style.display = 'none'
-    document.getElementById('container').style.display = 'block'
-  }
+  document.getElementById('container').style.display = ''
+  document.getElementById('more').style.display = 'none'
+  document.getElementById('about').style.display = 'none'
+  document.getElementById('help').style.display = 'none'
+  document.getElementById('settings').style.display = 'none'
+
+  Array.from(document.getElementsByClassName('status'))
+    .forEach((s) => s.remove())
 
   for (let i = 0; i < rows.length; i++) {
     removeRow()
@@ -576,7 +600,7 @@ function initAutomation () {
 
   document.querySelector('.status')?.remove()
 
-  document.getElementById('next').style.display = 'inline-block'
+  document.getElementById('next').style.display = ''
 
   possibilities = generatePossibilities(4, ['u', 'd', 'l', 'r'])
 
@@ -584,6 +608,176 @@ function initAutomation () {
 }
 
 let possibilities = []
+
+function updateTheme (t) {
+  if (t === 'light') {
+    document.body.style.background = 'white'
+    document.body.style.color = 'black'
+
+    Array.from(document.getElementsByTagName('button')).forEach(function (b) {
+      b.className = 'light'
+    })
+  } else {
+    document.body.style.background = 'black'
+    document.body.style.color = 'white'
+
+    Array.from(document.getElementsByTagName('button')).forEach(function (b) {
+      b.className = 'dark'
+    })
+  }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function selfTest () {
+  /*
+   * Test framework
+   */
+  const tests = {
+    passed: 0,
+    failed: 0,
+    total: 0,
+    message: ''
+  }
+
+  const check = '\u2714'
+  const cross = '\u274C'
+
+  const test = async function (label, func) {
+    if (typeof func === 'undefined') {
+      tests.message += '\n  ' + label + '\n'
+    } else {
+      tests.total++
+
+      if (await func()) {
+        tests.passed++
+        tests.message += '    ' + check + ' ' + label + '\n'
+      } else {
+        tests.failed++
+        tests.message += '    ' + cross + ' ' + label + '\n'
+      }
+    }
+  }
+
+  /*
+   * Tests
+   */
+  
+  const clickEvent = new MouseEvent('click')
+  const shiftClickEvent = new MouseEvent('click', {'shiftKey': true})
+
+  const more = document.getElementById('more')
+
+  test('User Interface')
+
+  test('Shows more options', function showMore () {
+    moreOptions()
+
+    return more.style.display !== 'none'
+  })
+
+  test('Hides more options', function hideMore () {
+    moreOptions()
+
+    return more.style.display === 'none'
+  })
+
+  const settings = document.getElementById('settings')
+
+  test('Shows settings', function showSettings () {
+    display('settings')
+
+    return settings.style.display !== 'none'
+  })
+
+  /*
+  const dark = document.getElementById('dark')
+  const light = document.getElementById('light')
+
+  await test('Changes theme', async function changesTheme () {
+    return true
+  })
+  */
+
+  const help = document.getElementById('help')
+
+  test('Shows help', function showHelp () {
+    display('help')
+
+    return help.style.display !== 'none'
+  })
+
+  const about = document.getElementById('about')
+
+  test('Shows about', function showAbout () {
+    display('about')
+
+    return about.style.display !== 'none'
+  })
+
+  const auto = document.getElementById('auto')
+
+  test('Resets board and makes a first guess', function initTest () {
+    initAutomation()
+
+    return typeof JSON.parse(Array.from(
+      document.querySelectorAll('.row')).slice(-1)[0].dataset.evidence
+    ).correct === 'undefined'
+  })
+
+  let row = Array.from(document.querySelectorAll('.row')).slice(-1)[0]
+  let score = Array.from(row.querySelectorAll('.score')).slice(-1)[0]
+
+  test('Increases score on click', function incScores () {
+    for (let i = 0; i < 4; i ++) {
+      score.children[0].dispatchEvent(clickEvent)
+      score.children[1].dispatchEvent(clickEvent)
+    }
+
+    return parseInt(score.children[0].innerText) === 4
+  })
+
+  test('Score wraps from 4 to 0', function loopsAroundMax () {
+    score.children[0].dispatchEvent(clickEvent)
+
+    return parseInt(score.children[0].innerText) === 0
+  })
+
+  test('Decreases score on shift-click', function decScores () {
+    for (let j = 0; j < 4; j ++) {
+      score.children[1].dispatchEvent(shiftClickEvent)
+    }
+
+    return parseInt(score.children[1].innerText) === 0
+  })
+
+  test('Score wraps from 0 to 4', function loopsAroundMin () {
+    score.children[1].dispatchEvent(shiftClickEvent)
+
+    return parseInt(score.children[1].innerText) === 4
+  })
+
+  const next = document.getElementById('next')
+
+  await test('Hides next after success', async function hidesNextOnSuccess () {
+    score.children[0].dispatchEvent(shiftClickEvent)
+    score.children[1].dispatchEvent(clickEvent)
+    next.dispatchEvent(clickEvent)
+
+    return next.style.display === 'none'
+  })
+
+  const res = document.getElementById('testResults')
+
+  res.value = tests.message + '\n  ' + ((tests.passed / tests.total * 100) + '').substring(0, 5) +
+  '% of tests passed (' + tests.passed + '/' + tests.total + ').'
+
+  // Has to be actively displayed to be scrolled.
+  display('settings')
+  res.scrollTop = res.scrollHeight
+}
 
 </script>
 </body>
