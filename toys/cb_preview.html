@@ -1,0 +1,356 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CB Preview</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100vw;
+}
+
+body {
+  background: black;
+  text-align: center;
+  font-size: 5vw;
+  font-weight: bold;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.menu {
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  max-width:100vw;
+  z-index: 1;
+}
+
+.menu a {
+  float: left;
+  color: white;
+  font-size: clamp(14px, 7vw, 20px);
+  font-weight: bold;
+  text-decoration: none;
+  padding-top: 0.8vw;
+  padding-bottom: 0.8vw;
+  margin: 0;
+}
+
+.menu a:hover {
+  background: rgb(33, 55, 255);
+}
+
+.menu a {
+  width: 20vw;
+}
+
+.menu .icon {
+  display: none;
+}
+
+#hamburger:after {
+  content: '\2630';
+}
+
+#hamburger.active:after {
+  content: '\2715';
+  width: 100vw;
+}
+
+#container {
+  margin: 0;
+  padding: 0;
+  margin-top: clamp(18px, 7vw, 54px);
+}
+
+.row {
+  width: 99.8vw;
+  float: left;
+  border-bottom: 0.2vw inset silver;
+}
+
+.row:first-child {
+  border-top: 0.4vw inset silver;
+}
+
+.scoreboard {
+  float: right;
+  width: 8vw;
+  font-size: clamp(17.7px, 7.2vw, 36px);
+  font-weight: bold;
+  color: white;
+}
+
+.correct {
+  background: green;
+}
+
+.misplaced {
+  background: red;
+  margin-top: 0.8vw;
+  position: relative;
+  bottom: 0px;
+}
+
+.status {
+  width: 88vw;
+  float: left;
+  margin-top: 2px;
+  margin-left: 4vw;
+  padding: clamp(1vw, 18px, 2vw);
+  font-size: clamp(13px, 4vw, 32px);
+}
+
+.success {
+  color: white;
+  background:rgb(0, 168, 73);
+}
+
+.warning {
+  color: black;
+  background: rgb(214, 214, 0);
+}
+
+.failure {
+  color: white;
+  background: red;
+}
+
+.triangle-up, .triangle-down, .triangle-left, .triangle-right {
+  float: left;
+  margin-left: 1vw;
+}
+
+/*Up pointing*/
+.triangle-up {
+  width: clamp(16px, 6vw, 48px);
+  height: 0;
+  padding-left: clamp(16px, 6vw, 48px);
+  padding-bottom: clamp(16px, 6vw, 48px);
+  margin-top: clamp(6px, 1vw, 10px);
+  margin-left: clamp(8px, 7.5vw, 90px);
+  overflow: hidden;
+}
+
+.triangle-up:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin-left: -500px;
+  border-left: 500px solid transparent;
+  border-right: 500px solid transparent;
+  border-bottom: 500px solid yellow;
+}
+
+/*Right pointing*/
+.triangle-right {
+  width: 0;
+  height: 0;
+  padding-top: clamp(16px, 6vw, 48px);
+  padding-bottom: clamp(16px, 6vw, 48px);
+  padding-left: clamp(16px, 6vw, 48px);
+  margin-top: clamp(3px, 2vw, 5px);
+  margin-left: clamp(14px, 14.8vw, 140px);
+  overflow: hidden;
+}
+
+.triangle-right:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin-top: -500px;
+  margin-left: -500px;
+
+  border-top: 500px solid transparent;
+  border-bottom: 500px solid transparent;
+  border-left: 500px solid blue;
+}
+
+/*Down pointing*/
+.triangle-down {
+  width: clamp(16px, 6vw, 48px);
+  height: 0;
+  padding-left: clamp(16px, 6vw, 48px);
+  padding-top: clamp(16px, 6vw, 48px);
+  margin-top: clamp(24px, 8vw, 50px);
+  margin-left: clamp(8px, 7.5vw, 90px);
+  overflow: hidden;
+}
+
+.triangle-down:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin-left: -500px;
+  margin-top: -500px;
+
+  border-left: 500px solid transparent;
+  border-right: 500px solid transparent;
+  border-top: 500px solid yellow;
+}
+
+/*Left pointing*/
+.triangle-left {
+  width: clamp(16px, 6vw, 48px);
+  height: 0;
+  padding-top: clamp(16px, 6vw, 48px);
+  padding-bottom: clamp(16px, 6vw, 48px);
+  margin-top: clamp(3px, 2vw, 5px);
+  margin-left: clamp(16px, 11.8vw, 140px);
+  overflow: hidden;
+}
+
+.triangle-left:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin-top: -500px;
+
+  border-top: 500px solid transparent;
+  border-bottom: 500px solid transparent;
+  border-right: 500px solid blue;
+}
+
+@media screen and (max-width: 600px) {
+  #controls a:nth-child(n+2):nth-child(-n+4) {
+    display: none;
+  }
+
+  #controls a:nth-child(n+4):nth-child(-n+6) {
+    width: 45vw;
+  }
+
+  .menu a.icon {
+    float: left;
+    width: 10vw;
+    display: block;
+  }
+
+  .menu .responsive {
+    position: relative;
+  }
+
+  .menu .responsive #hamburger {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .menu a.active {
+    width: 100vw;
+  }
+
+  #controls.menu.responsive a:nth-child(n+2):nth-child(-n+4) {
+    float: none;
+    display: inline-block;
+    width: 100vw;
+    padding: 0;
+  }
+
+  #controls.menu.responsive a:nth-child(n+5):nth-child(-n+6) {
+    display: none;
+  }
+
+  #container {
+    margin-top: clamp(28px, 12.5vw, 38px);
+  }
+
+  .status {
+    margin-left: 0;
+    width: 96vw;
+    float: left;
+  }
+}
+</style>
+</head>
+<body>
+
+<!--
+  Based on https://jsfiddle.net/josedvq/3HG6d/
+-->
+
+<div id="controls" class="menu">
+  <a href="javascript:void(0);" id="hamburger" class="icon" onclick="expandMenu"></a>
+  <a href="#settings" id="settingsBtn">Settings</button>
+  <a href="#help" id="helpBtn">Help</button>
+  <a href="#about" id="aboutBtn">About</button>
+  <a href="#auto" id="autoBtn">Auto</button>
+  <a href="#next" id="nextBtn">Next</button>
+</div>
+
+<div id="container">
+  <div class="row">
+    <div class="triangle-up"></div>
+    <div class="triangle-right"></div>
+    <div class="triangle-down"></div>
+    <div class="triangle-left"></div>
+
+    <div class="scoreboard">
+      <div class="correct">0</div>
+      <div class="misplaced">0</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="triangle-up"></div>
+    <div class="triangle-down"></div>
+    <div class="triangle-down"></div>
+    <div class="triangle-up"></div>
+
+    <div class="scoreboard">
+      <div class="correct">0</div>
+      <div class="misplaced">0</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="triangle-left"></div>
+    <div class="triangle-right"></div>
+    <div class="triangle-left"></div>
+    <div class="triangle-right"></div>
+
+    <div class="scoreboard">
+      <div class="correct">0</div>
+      <div class="misplaced">0</div>
+    </div>
+  </div>
+
+  <div>
+    <div id="success" class="status success">
+      Success! Try again.
+    </div>
+
+    <br/>
+
+    <div id="warning" class="status warning">
+      The sum of correct and misplaced must be 4 or less.
+    </div>
+
+    <br/>
+
+    <div id="failure" class="status failure">
+      Error: No more possibilities to guess. There may be a mistake in the data you entered.
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  document.getElementById('hamburger').addEventListener('click', function () {
+    const m = document.getElementById('controls').classList.toggle('responsive')
+    const x = document.getElementById('hamburger').classList.toggle('active')
+  })
+</script>
+</body>
+</html>
