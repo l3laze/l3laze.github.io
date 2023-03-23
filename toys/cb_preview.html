@@ -72,7 +72,7 @@ body {
 }
 
 .row {
-  width: 99.8vw;
+  width: 100vw;
   float: left;
   border-bottom: 0.2vw inset silver;
 }
@@ -101,12 +101,12 @@ body {
 }
 
 .status {
-  width: 88vw;
+  width: 80vw;
   float: left;
   margin-top: 2px;
-  margin-left: 4vw;
-  padding: clamp(1vw, 18px, 2vw);
-  font-size: clamp(13px, 4vw, 32px);
+  margin-left: 8vw;
+  padding: clamp(2px, 2vw, 32px);
+  font-size: clamp(14px, 2.6vw, 24px);
 }
 
 .success {
@@ -124,103 +124,30 @@ body {
   background: red;
 }
 
-.triangle-up, .triangle-down, .triangle-left, .triangle-right {
+.up, .down, .left, .right {
   float: left;
-  margin-left: 1vw;
-}
-
-/*Up pointing*/
-.triangle-up {
-  width: clamp(16px, 6vw, 48px);
-  height: 0;
-  padding-left: clamp(16px, 6vw, 48px);
-  padding-bottom: clamp(16px, 6vw, 48px);
-  margin-top: clamp(6px, 1vw, 10px);
-  margin-left: clamp(8px, 7.5vw, 90px);
-  overflow: hidden;
-}
-
-.triangle-up:after {
-  content: "";
+  width: clamp(24px, 16vw, 80px);
+  margin-top: clamp(4px, 1vw, 16px);
+  margin-bottom: clamp(0px, 1vw, 12px);
+  margin-left: clamp(10px, 4vw, 120px);
+  height: auto;
   display: block;
-  width: 0;
-  height: 0;
-  margin-left: -500px;
-  border-left: 500px solid transparent;
-  border-right: 500px solid transparent;
-  border-bottom: 500px solid yellow;
 }
 
-/*Right pointing*/
-.triangle-right {
-  width: 0;
-  height: 0;
-  padding-top: clamp(16px, 6vw, 48px);
-  padding-bottom: clamp(16px, 6vw, 48px);
-  padding-left: clamp(16px, 6vw, 48px);
-  margin-top: clamp(3px, 2vw, 5px);
-  margin-left: clamp(14px, 14.8vw, 140px);
-  overflow: hidden;
+.up {
+  content: url("data:image/gif;base64,R0lGODlh8ADwAIAAAP/7AP/7ACH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAADwAPAAQAL+jI+py+0Po5y02ouz3rz7AITiSALfiabqyirlC8dhS9f2jcn6zs/4DwxmesSi0SdMKlvHpvOJXEqnDKj1io1St6ys9wvWcseQsPmMFpOV6bb7rV5/4PS6PS5v3Pf8Pl7qFyg4+JdCeIiYWBih2Oj4uJgnOUlZaXmJmam5ydnp+QkaKjpKWmp6ipqqusra6voKGys7S1tre4ubq7vL2+vrC/MrfHE1PFxnDOuY/AnZw0zmDAZdI81HTWwNiW2g7a2T+y1ulTpu3pZ5rh44te7uvPIu704xb3//wq2/z9/v/w8woMCBBAsaPIgwocKFDBs6fAgxosSJFCvqGmGx1o7+jKyccBz15aMmNyLzXCu5BBHKG9JWojjnMoe9mA/w5aMJwiYPkTqfSOwZMiFQdAGH3tFndNCxpI3CMdUW6+m6clLvhaqaNB3WrSa3ei3R7qtYGT/GmiUS76zaIxzWuiU34a1cL1Xm2g2DM6/evXz7+v0LOLDgwYQLGz6MOLHixYwbO34MObLkyZQrW76MObPmzZw7e/4MOjTASKINkSjNMgbqLjtXzzHiegOU2Bay0GY07faCNLoPwLl9FLWf0IQ6K8q8jTJUyOMaT0U8r7DNwEP7Ps3LdeVYnmotzv1510TD8KeFkr9J8Dy4oupb82sPmxt8j8zmw/1l3zav/Lmpb/E/o9F/vCkj4ButFGgHVQgGB9KCw4HiYHGcRJiIVhQeR8mF8Mih4XJbdChOWCA2J8SI9OBgYnQ0pIhPWixO99qLQLUlI1My1ShVPTh6VcaO2+3mY3e+BflWb0YeiWSSSi7JZJNOPglllFJOSWWVVl6JZZZabslll15+CWaYYo5JZplmnolmmmquyWabbr4JZ5xyzklnnXbeiWeeeu7JZ59+/glooHQWAAA7");
 }
 
-.triangle-right:after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  margin-top: -500px;
-  margin-left: -500px;
-
-  border-top: 500px solid transparent;
-  border-bottom: 500px solid transparent;
-  border-left: 500px solid blue;
+.down {
+  content: url("data:image/gif;base64,R0lGODlh8ADwAIAAAP/7AP/7ACH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAADwAPAAQAL+jI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1ih0Bttyu9wsOi8fksvmMTqvX7LYb7HjL5/S6/Y5fe/L8vv8PSOYSSFhoeOhzqLjIGObUCBkpl5UgaSlJiXG5aZd5wgkK51kTqjhaVDp3SpUquvoaEAk7O5FHe/txhrvL2+v7CxwsPExcbHyMnKy8zNzs/AwdLT1NXW19jZ393Mrd7W3hHS7+ZzJufi5mg77OacT+zmcFPy+IS2++fC+rrY+nXdGvzD8S8wbOKGVQSKGEUd4wfPXlocSJFCtavIgxo8b+jRw7evwIMqTIkSRLmjyJMqXKlSxbunwJM6bMmTRr2ryJM6fOnTx7+nwSMKjQiA2GGoUH7qjSVnuWOm1U7qnUPoOmWm2j7qpWRz22XnXndeijsEirkBV36iyoXWoZDWtLThlcOtPmpvln19XDuRy3klzKsh/NdTy7/ax06TCERYovxG3MoQ7kEnomrxhj+SCAzJw7e/4MOrTo0aRLmz6NOrXq1axbu34NO7bs2bRr276NO7fu3bx7+/4NPLjw4cSLGz+OPLny5cybO38OPbr06dSrW7+OPbv27bzzegek4Lv4TkXHm6+8+Lx6zADXu9+i4f35pvLtiqjfNip+rSqW9k+t6p9RMgQYVFYEloXDgYR1pWA4CjWYClgQJpbEhPswYaEpDWUInlkc2pLFh5KNIqIbs5R4lz0ostfLikQF4+JmxpSYj4XbKFiXf9fUh5d6DI1HUV4Y5bdRWCB9NdJTKB0VWEAw3TMYOzidU9g3PzEF2VqcWRIaVKQhglogrVEF2x21qYIbVt2hEZxAxHF1XBfcCVMAADs=");
 }
 
-/*Down pointing*/
-.triangle-down {
-  width: clamp(16px, 6vw, 48px);
-  height: 0;
-  padding-left: clamp(16px, 6vw, 48px);
-  padding-top: clamp(16px, 6vw, 48px);
-  margin-top: clamp(24px, 8vw, 50px);
-  margin-left: clamp(8px, 7.5vw, 90px);
-  overflow: hidden;
+.left {
+  content: url("data:image/gif;base64,R0lGODlh8ADwAIABAAAm///7ACH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAADwAPAAQAL+jI+py+0Po5y02ouz3rz7AIRi+JXmiaaqNLYusMbyTMvvjdf6zvcHDgySfMSisSJMKmHHptO3jEqf1GpJis0OrdxuQwsOM73kp/iMLqt36LZ7u4573vT6WI5n2ff7vD/BFygI9+c1eIh4V9iU2Ni4qOYo+Qb5N3kZValpgNk5sgmq4PkYWvo1Wmeqqoeqtfpq0ZoES6sh+1mb2+Gp23uS6Bu8YidcTCNmnMyzpNxc9OIcTYQrXY0iZJ2d4ardzUDpnT0YnnxJXnt7Dnp7o57HzuzOBR8mb0RPZ3+ML6hvwj/JHwaArQQ+IMjP4EGE8BTGYojJ4S6I4yReo+jGYg3+jFk0PuOYwyMVkIpEzgNo0lLBlJsCsnzV76WvjDKbdaypLQhOeSJ28izps5qLoNaAELU562gwLEpz1Wuqqg3UdfmmFgpkFQ+irGUkcbXS6SsjVGKhsCu7MSFaFRDX/uPolgPJnnEfzqVWd+FdaHm/7dXZ98dfJX0HM11rGIzYxGesMqZJ9HGqnZL5yKxc0SNmYCY3H6rpuY/P0JAjk1bs+HSmxaoBI249tDBsoHVVB/aL+bbexLpZ7e2NZC7wgRiHb2BofA6+5G9lMU9B9vkwc9JnOKrOJjP27MS2fyzt/fvT8Ga4kQe7+rwhbOrXhGwvpwX8q/Mt1ddK6H4X+fr+1/PvX8V7AI4l4IDTsGegWUklyB1hDKY1xYM2mCfhRahV2Nx4GE6UxoZygeMhcVWFGFx3JPpm4okOfKbiKSy2CAgpMHLi1YwRtcjLidF56NyGZ1VIj4RqGUgQkQgBSJF+cM1HEnx3qfcXeYZ5xxh2kkmXW3KeGUcacLbdBltgs9H21Zj5lWnmmamlqWZTbP635pt0TSUnX27WaadpeOZJ2Z4FXuanUTgFiiBLhC7Y2aGIaqRoPIw26uijkBaq2aSCGmopnyllCiegnOo5qVKWQgVpnH5yRShreKK16mts1pambLOBGaZurQ13mpZbMrdZdZVt91h4vEkZJZRPOtlvZH0g9VccksgZiRKD0T64HIYN8dhjiCvpmCOON9ro0ow0yijuuC+WK5h26KZr2boLYOUubiPG++689NYr1b27aaivixf2u2+EAEdA4cAQHGbwBOklrPCiDKOo6cMQ4yVxiZ1WbHGbGPu28Ycdr1UAADs=");
 }
 
-.triangle-down:after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  margin-left: -500px;
-  margin-top: -500px;
-
-  border-left: 500px solid transparent;
-  border-right: 500px solid transparent;
-  border-top: 500px solid yellow;
-}
-
-/*Left pointing*/
-.triangle-left {
-  width: clamp(16px, 6vw, 48px);
-  height: 0;
-  padding-top: clamp(16px, 6vw, 48px);
-  padding-bottom: clamp(16px, 6vw, 48px);
-  margin-top: clamp(3px, 2vw, 5px);
-  margin-left: clamp(16px, 11.8vw, 140px);
-  overflow: hidden;
-}
-
-.triangle-left:after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  margin-top: -500px;
-
-  border-top: 500px solid transparent;
-  border-bottom: 500px solid transparent;
-  border-right: 500px solid blue;
+.right {
+  content: url("data:image/gif;base64,R0lGODlh8ADwAIABAAAm///7ACH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAADwAPAAQAL+jI+py+0Po5y02ouz3rz7BoRi+JXmiaaqNrYusMbyTNfJi+f2zve+kgsKSb+i8ZgZKpcwpPOJZEqn0KpVNc1qideuV7INi5vfsneMTpvXxrT7zWXLU/C6nTzPY+78vv7/0Cc4GAc4R4iYiGd4pejoyPj0OAkX+UWJKWWZl9k5smnpCQlKeiB6V5rKcCqm6grBqvQ6SxH7SYt74ZnLy6HYC1yCGkyMMlaMLMOUzGzz0gztcxtNvTNUjW2slc2t+9YNvkAYno1Jjmx7TmuLo77JvuwuB98qb0VfZ1+EP66vzD/JnzCApwR6I0jPoAOECRWCYJjJYQWIiCT6ovjN4gn+jNs0zuAYxOMPkItEtgFoskyslHoosXwn6OWrjDJ5dayZTAhObiJ2uivkE5yLoEJ1EKW25CizLEqD1Ws6yw1UVXamwuRjFVCirPMecb0U8SsUVmKPwCvbAyXajwzXYuHodiDJknEnzm1R18Jdo3kD7dXZV9zfpIENDGaa93AYt4rRiG1Msynkqkcn+9lpuR/LzL9Ecq5o8jNWmaIj1yz9lChqKlZXX3vseijj2HTRri5sijNuIJB3P/zrG9bc4BPgErdL8HgSfMovrmzuoSB0E2Gna+tsfQXo7GyHcXdW6bs0x+JP3ixvVhP6KrLWd+Hr/sy0+GZq0790nxPQ/O/+5/NvJNt/97Qj4FghFRjFawiORNiCPLDmYA3nRajdFhTGcMyF16WmYQemdbjchyAiF96Ieo1mYnExpRjBdiyustWLgmEno2EB1RhAdSzusqMoKT7XITtBnkUhPxEmh2BbAlL0n3H0kfTkcOsBV95h4jXG3WTWZQbdZ8qVRtxtu8WGG232wWZmYmb2NNuabJblZoBcxfnMnHTWOdWd8FWm554+9QlYUIAqiNOg7Z1m6KGbJdpgaIzG49mj6mkkKaSUVhpopJjimdKmci7q6ZkehaoapkpVCtWjrRlqZ59o0mkbrGvFWdeafdFWmGtjgumbaMfp9qWWXWK5pZVZUvly3V5TQukeSPdhxB9ESyI5LXMLWusgkUUCeSFZI/r4o44mmlPjjTiOgqONmqWr7mXsIrDiuzd4J++8JdbLm1T4/pbhvvxa6K9fAAcsMIQEF9zowQhnqrBwhDbcIsMQR0zgxCT6Z7GKGGessagc+/VxWQUAADs=");
 }
 
 @media screen and (max-width: 600px) {
@@ -252,11 +179,12 @@ body {
     width: 100vw;
   }
 
-  #controls.menu.responsive a:nth-child(n+2):nth-child(-n+4) {
+  #controls.menu.responsive a:nth-child(n+1):nth-child(-n+4) {
     float: none;
-    display: inline-block;
+    display: block;
     width: 100vw;
-    padding: 0;
+    margin: 0;
+    padding: 8px 0;
   }
 
   #controls.menu.responsive a:nth-child(n+5):nth-child(-n+6) {
@@ -292,10 +220,10 @@ body {
 
 <div id="container">
   <div class="row">
-    <div class="triangle-up"></div>
-    <div class="triangle-right"></div>
-    <div class="triangle-down"></div>
-    <div class="triangle-left"></div>
+    <div class="up"></div>
+    <div class="right"></div>
+    <div class="down"></div>
+    <div class="left"></div>
 
     <div class="scoreboard">
       <div class="correct">0</div>
@@ -304,10 +232,10 @@ body {
   </div>
 
   <div class="row">
-    <div class="triangle-up"></div>
-    <div class="triangle-down"></div>
-    <div class="triangle-down"></div>
-    <div class="triangle-up"></div>
+    <div class="up"></div>
+    <div class="down"></div>
+    <div class="up"></div>
+    <div class="down"></div>
 
     <div class="scoreboard">
       <div class="correct">0</div>
@@ -316,10 +244,10 @@ body {
   </div>
 
   <div class="row">
-    <div class="triangle-left"></div>
-    <div class="triangle-right"></div>
-    <div class="triangle-left"></div>
-    <div class="triangle-right"></div>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="left"></div>
+    <div class="right"></div>
 
     <div class="scoreboard">
       <div class="correct">0</div>
