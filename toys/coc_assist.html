@@ -3,35 +3,47 @@
 <head>
     <title>COC Table..</title>
     <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
         body {
             background: black;
         }
+
         button {
             background: black;
             color: white;
+            padding: 4px;
+            width: 12vw;
             border: 1px solid white;
             border-radius: 12%;
         }
 
         table {
-            display: inline-block;
-            height: 100%;
-            width: 100%;
+          display: inline-block;
         }
 
         td {
-            height: 7rem;
-            width: 4rem;
-            border: 1px solid white;
+          width: clamp(8px, 10vw, 240px);
+          height: clamp(12px, 14vw, 360px);
+          border: 1px solid white;
+        }
+
+        #controls {
+          margin-left: 15vw;
         }
 
         .hit {
-            background: red;
+          background: red;
         }
     </style>
 </head>
 <body>
-    <button onclick="reset()">Reset</button>
+    <span id="controls">
+      <button onclick="reset()">Reset</button>
+    </span>
 
     <br />
     <br />
