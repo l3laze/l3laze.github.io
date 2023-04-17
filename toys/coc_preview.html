@@ -21,8 +21,8 @@
   span {
     display: inline-block;
     box-sizing: content-box;
-    width: clamp(1px, 17.85vw, 320px);
-    height: clamp(1px, 17.5vh, 290px);
+    width: clamp(1px, 17.5vw, 320px);
+    height: clamp(1px, 18vh, 290px);
     border: 2px solid white;
     user-select: none;
   }
@@ -81,7 +81,8 @@
 
     .menu a.icon {
       float: right;
-      width: 5vw;
+      width: 6vw;
+      padding: 1px;
       display: block;
     }
 
@@ -111,6 +112,12 @@
       display: block;
       width: 100vw;
       margin: 0;
+    }
+    
+    span {
+      width: calc(90vw / 5);
+      height: calc(82vh / 5);
+      border: 1px solid white;
     }
   }
 </style>
