@@ -18,12 +18,12 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
-  span {
+  #container span {
     display: inline-block;
-    box-sizing: content-box;
-    width: clamp(1px, 17.5vw, 320px);
-    height: clamp(1px, 18vh, 290px);
-    border: 2px solid white;
+    box-sizing: border-box;
+    width: calc(90vw/5);
+    height: calc((80vh - 5vw)/5);
+    border: 1px solid white;
     user-select: none;
   }
 
@@ -59,6 +59,17 @@
 
   #hamburger:after {
     content: '\2630';
+  }
+
+  #container {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+  }
+
+  #container span {
+    width: 20vw;
+    height: 20vh;
   }
 
   @media screen and (max-width: 600px) {
@@ -114,10 +125,8 @@
       margin: 0;
     }
     
-    span {
-      width: calc(90vw / 5);
-      height: calc(82vh / 5);
-      border: 1px solid white;
+    #container span {
+      border: 2px solid white;
     }
   }
 </style>
@@ -130,43 +139,45 @@
     <a href="#about" id="aboutBtn">About</a>
   </div>
 
-  <span id="node0"></span>
-  <span id="node1"></span>
-  <span id="node2"></span>
-  <span id="node3"></span>
-  <span id="node4"></span>
+  <div id="container">
+    <span id="node0"></span>
+    <span id="node1"></span>
+    <span id="node2"></span>
+    <span id="node3"></span>
+    <span id="node4"></span>
 
-  <br/>
+    <br/>
 
-  <span id="node5"></span>
-  <span id="node6"></span>
-  <span id="node7"></span>
-  <span id="node8"></span>
-  <span id="node9"></span>
+    <span id="node5"></span>
+    <span id="node6"></span>
+    <span id="node7"></span>
+    <span id="node8"></span>
+    <span id="node9"></span>
 
-  <br/>
+    <br/>
 
-  <span id="node10"></span>
-  <span id="node11"></span>
-  <span id="node12"></span>
-  <span id="node13"></span>
-  <span id="node14"></span>
+    <span id="node10"></span>
+    <span id="node11"></span>
+    <span id="node12"></span>
+    <span id="node13"></span>
+    <span id="node14"></span>
 
-  <br/>
+    <br/>
 
-  <span id="node15"></span>
-  <span id="node16"></span>
-  <span id="node17"></span>
-  <span id="node18"></span>
-  <span id="node19"></span>
+    <span id="node15"></span>
+    <span id="node16"></span>
+    <span id="node17"></span>
+    <span id="node18"></span>
+    <span id="node19"></span>
 
-  <br/>
+    <br/>
 
-  <span id="node20"></span>
-  <span id="node21"></span>
-  <span id="node22"></span>
-  <span id="node23"></span>
-  <span id="node24"></span>
+    <span id="node20"></span>
+    <span id="node21"></span>
+    <span id="node22"></span>
+    <span id="node23"></span>
+    <span id="node24"></span>
+  </div>
 <script>
 document.getElementById('hamburger').addEventListener('click', function () {
   const m = document.getElementById('controls').classList.toggle('responsive')
