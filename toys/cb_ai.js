@@ -344,21 +344,16 @@ function nextGuess () {
 
 function initAutomation () {
   const rows = Array.from(document.querySelectorAll('.row'))
+  const cb = document.getElementById('cb_container')
 
-  document.getElementById('cb_container').style.display = ''
+  cb.style.display = ''
   document.getElementById('about').style.display = 'none'
   document.getElementById('help').style.display = 'none'
   document.getElementById('settings').style.display = 'none'
 
-  Array.from(document.getElementsByClassName('status'))
-    .forEach((s) => s.remove())
-
-  for (let i = 0; i < rows.length; i++) {
-    removeRow()
-  }
-
-  document.querySelector('.status')?.remove()
-
+  // Not great, but better than previous garbage. Lol.
+  cb.innerHTML = ''
+  
   document.getElementById('next').style.display = ''
 
   possibilities = generatePossibilities(4, ['u', 'd', 'l', 'r'])

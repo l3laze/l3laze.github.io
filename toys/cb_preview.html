@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI-based assistant for the Code Breaker event in the game WWE SuperCard.">
 <title>CB AI Assistant</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -15,15 +16,14 @@
     <a href="javascript:void(0);" id="auto">Auto</a>
     <a href="javascript:void(0);" id="next" style="display:none">Next</a>
   </div>
-
   
   <div id="cb_container">
   </div>
 
-  <div id="overlay_container">
+  <div id="overlay_container" style="display:none">
     <div id="modal_container">
       <div id="modal_title">
-        <span id="modal_title_text">An Unnecessarily Long Fucking Title</span>
+        <span id="modal_title_text">Title</span>
         <a href="javascript:void(0);" id="closeModal" class="icon">X</a>
       </div>
       
@@ -41,7 +41,7 @@
         </ul>
       </div>
 
-      <div id="about">
+      <div id="about" style="display:none">
         <ul>
           <li>Made for Chrome</li>
           <li>Code Breaker AI based on <a href="https://nebupookins.github.io/JS-Mastermind-Solver/">JS-Mastermind-Solver</a> by <a href="https://github.com/nebupookins">nebupookins</a></li>
