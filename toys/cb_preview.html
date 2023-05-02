@@ -10,9 +10,9 @@
 <body>
   <div id="controls" class="menu">
     <a href="javascript:void(0);" id="hamburger" class="icon"></a>
-    <a href="#about" id="aboutBtn" onclick="openModal('about')">About</a>
-    <a href="#settings" id="settingsBtn" onclick="openModal('settings')">Settings</a>
-    <a href="#help" id="helpBtn" onclick="openModal('help')">Help</a>
+    <a href="javascript:void(0);" id="aboutBtn" onclick="openModal('about')">About</a>
+    <a href="javascript:void(0);" id="settingsBtn" onclick="openModal('settings')">Settings</a>
+    <a href="javascript:void(0);" id="helpBtn" onclick="openModal('help')">Help</a>
     <a href="javascript:void(0);" id="auto">Auto</a>
     <a href="javascript:void(0);" id="next" style="display:none">Next</a>
   </div>
@@ -32,22 +32,29 @@
       </div>
 
       <div id="help" style="display:none">
-        <ul>
-          <li>Press Auto to reset the board and generate a random guess.</li>
-          <li>Click to add 1 correct (green), or 1 misplaced (red).</li>
-          <li>Click to reset to 0 from the maximum correct or displaced (4).</li>
-          <li>Right click to deduct 1 instead.</li>
-          <li>Right click to reset to 4 from the minimum correct or displaced (0).</li>
-        </ul>
+        <hr/>
+        <span>Press Auto to reset the board and generate a random guess.</span>
+        <hr/>
+        <span>Click to add 1 correct (green), or 1 misplaced (red).</span>
+        <hr/>
+        <span>Click to reset to 0 from the maximum correct or displaced (4).</span>
+        <hr/>
+        <span>Right click/long press to deduct 1 instead.</span>
+        <hr/>
+        <span>Right click/long press to reset to 4 from the minimum correct or displaced (0).</span>
+        <hr/>
+        <span>Android mobile? Try <a href="https://play.google.com/store/apps/details?id=com.lwi.android.flapps">Floating Apps</a> or <a href="https://play.google.com/store/apps/details?id=com.applay.overlay">Overlays</a></span>
       </div>
 
-      <div id="about" style="display:none">
-        <ul>
-          <li>Made for Chrome</li>
-          <li>Code Breaker AI based on <a href="https://nebupookins.github.io/JS-Mastermind-Solver/">JS-Mastermind-Solver</a> by <a href="https://github.com/nebupookins">nebupookins</a></li>
-          <li>Modal based on <a href="https://rapaccinim.medium.com/how-to-create-a-custom-resizable-modal-with-scrollable-and-fixed-content-21adb2adda28">Article</a> by <a href="https://github.com/rapaccinim">Marco Rapaccini</a></li>
-          <li>Built with <span style="color:red;font-size:2rem;vertical-align:sub">&hearts;</span> by <a href="https://github.com/l3laze">l3l_aze</a></li>
-        </ul>
+      <div id="about">
+        <hr/>
+        <span>Made for Chrome</span>
+        <hr/>
+        <span>Code Breaker AI based on <a href="https://nebupookins.github.io/JS-Mastermind-Solver/">JS-Mastermind-Solver</a> by <a href="https://github.com/nebupookins">nebupookins</a></span>
+        <hr/>
+        <span>Modal based on <a href="https://rapaccinim.medium.com/how-to-create-a-custom-resizable-modal-with-scrollable-and-fixed-content-21adb2adda28">Article</a> by <a href="https://github.com/rapaccinim">Marco Rapaccini</a></span>
+        <hr/>
+        <span>Built with <span style="color:red">&hearts;</span> by <a href="https://github.com/l3laze">l3l_aze</a></span>
       </div>
     </div>
   </div>
